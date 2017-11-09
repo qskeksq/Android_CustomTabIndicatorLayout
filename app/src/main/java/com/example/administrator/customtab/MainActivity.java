@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 public class MainActivity extends AppCompatActivity {
 
     private CustomTabIndicatorLayout tabLayout;
+    private TabLayout bottomTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("1"));
         tabLayout.addTab(tabLayout.newTab().setText("1"));
         tabLayout.addTab(tabLayout.newTab().setText("1"));
+        bottomTabLayout = (TabLayout) findViewById(R.id.bottomTabLayout);
+        setBottomTabLayout();
 
 
         // 구조 파악
@@ -115,6 +118,15 @@ public class MainActivity extends AppCompatActivity {
                 setIndicator(tabLayout, 10, 10);
             }
         });
+    }
+
+    private void setBottomTabLayout() {
+        String[] category = getResources().getStringArray(R.array.category);
+        for (int i = 0; i < category.length; i++) {
+            bottomTabLayout.addTab(bottomTabLayout.newTab().setText(category[i]));
+            TextView tv1 = (TextView) (((LinearLayout) ((LinearLayout) bottomTabLayout.getChildAt(0)).getChildAt(i)).getChildAt(1));
+            tv1.setScaleY(-1);
+        }
     }
 
 }

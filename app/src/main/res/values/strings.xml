@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CustomTab</string>
+
+    <string-array name="category">
+        <item>가</item>
+        <item>나</item>
+        <item>다</item>
+    </string-array>
+
 </resources>

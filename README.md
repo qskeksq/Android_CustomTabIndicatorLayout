@@ -1,7 +1,7 @@
 # CustomTabIndicator
 탭레이아웃 Indicator 커스터마이징
 
-![](https://github.com/qskeksq/CustomTabIndicatorLayout/blob/master/pic/AC_%5B20171109-105450%5D.gif)
+![]()
 
 ### 커스터마이징 과정
 
@@ -9,8 +9,9 @@
 2. 상속 :  extends TabLayout 할 경우 탭을 그려주는 핵심 클래스인 SlidingTabStrip이 private이기 때문에 오버라이드 불가
 3. Reflection : indicator는 위젯(or 레이아웃)이 아니라 canvas에 그려지는 동적인 '그림'이다. 따라서 Reflection을 통해 declaredField, declaredMethod로 메서드나 변수에 접근한다 하더라도 indicator가 그려지는 핵심 메서드인 draw(Canvas canvas)를 시스템에서 호출하기 때문에 public으로 설정된 indicator의 속성인 높이, 두께, 색상 이외에는 커스터마이징 할 수 없다
 4. 직접 구현 :  따라서 오픈소스로 되어 있는 TabLayout을 전부 복사해서 라이브러리를 따로 만들고, 그 중 draw()부분을 customize 해 주면 된다.
-- 참고1. TintManager()가 deprecated가 되었기 때문에 getIcon 또한 바꿔줘야 한다
-- 참고2. private영역으로 선언된 클래스가 있기 때문에 전부 외부 클래스로 복사해줘야 한다
+- 참고1. TintManager()가 deprecated가 되었기 때문에 일단 getIcon 또한 바꿔줘야 한다
+- 참고2. private영역으로 선언된 클래스가 상당히 많기 때문에 전부 외부 클래스로 복사해줘야 한다
+- 참고3. 인디케이터 위아래 반전 코드 있음
 
 ### 뷰 하위구조 파악하기
 
@@ -358,5 +359,36 @@ private class SlidingTabStrip extends LinearLayout {
         }
     }
 
+}
+```
+
+### 위아래 반전
+
+- xml 에서  android:scaleY="-1" 속성
+- -1로 하면 탭뷰 전체가 반전되기 탭뷰 안의 컨텐츠를 다시 반전시켜준다
+
+```java
+<TableLayout
+    android:id="@+id/bottomTabLayout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/actionBarSize"
+    android:scaleY="-1"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:tabGravity="fill"
+    app:tabMode="scrollable">
+</TableLayout>
+```
+
+```java
+private void setBottomTabLayout() {
+    String[] category = getResources().getStringArray(R.array.category);
+    for (int i = 0; i < category.length; i++) {
+        bottomTabLayout.addTab(bottomTabLayout.newTab().setText(category[i]));
+        TextView tv1 = (TextView) (((LinearLayout) ((LinearLayout) bottomTabLayout.getChildAt(0)).getChildAt(i)).getChildAt(1));
+        tv1.setScaleY(-1);
+    }
 }
 ```
