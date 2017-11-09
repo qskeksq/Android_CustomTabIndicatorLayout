@@ -1,7 +1,7 @@
 # CustomTabIndicator
 탭레이아웃 Indicator 커스터마이징
 
-![]()
+![](https://github.com/qskeksq/CustomTabIndicatorLayout/blob/master/pic/AC_%5B20171109-105450%5D.gif)
 
 ### 커스터마이징 과정
 
